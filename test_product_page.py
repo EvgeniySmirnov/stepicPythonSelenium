@@ -20,7 +20,7 @@ def tst_guest_can_add_product_to_basket(browser):
     page.should_be_message_book_added()
     page.should_be_basket_price_eq_book_price()
     
-
+@pytest.mark.xfail
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     page = ProductPage(browser, PRODUCT_LINK)
     page.open()
@@ -32,8 +32,8 @@ def test_guest_cant_see_success_message(browser):
     page = ProductPage(browser, PRODUCT_LINK)
     page.open()
     page.should_not_be_success_message()
-    
 
+@pytest.mark.xfail
 def test_message_disappeared_after_adding_product_to_basket(browser): 
     page = ProductPage(browser, PRODUCT_LINK)
     page.open()
