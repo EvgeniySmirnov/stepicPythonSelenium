@@ -42,6 +42,7 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.add_product_to_basket()
     page.should_disappeared_success_message()
 
+
 def test_guest_should_see_login_link_on_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
     page = ProductPage(browser, link)
@@ -66,4 +67,32 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     basket_page.should_not_be_bascet_items()
     basket_page.should_be_message_bascet_is_empty()
 
-    
+class TestUserAddToBasketFromProductPage:
+
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        link = "http://selenium1py.pythonanywhere.com/ru/accounts/login/"
+        loginPage = LoginPage(browser, link)
+        loginPage.open()
+        loginPage.register_new_user(str(time.time()) + "@fakemail.org", "Pwd1234_5678")
+        loginPage.should_be_authorized_user()
+        
+
+    def test_user_cant_see_success_message(self, browser):
+        page = ProductPage(browser, PRODUCT_LINK)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_user_can_add_product_to_basket(self, browser):
+        #link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear"
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+        #link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
+
+        page = ProductPage(browser, link)   # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес 
+        page.open()                      # открываем страницу
+        page.should_not_be_success_message()
+        page.add_product_to_basket()
+        page.solve_quiz_and_get_code()
+
+        page.should_be_message_book_added()
+        page.should_be_basket_price_eq_book_price()
