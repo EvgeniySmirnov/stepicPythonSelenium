@@ -41,6 +41,10 @@ class BasePage():
 
         return True
 
+    def go_to_the_basket(self):
+        link = self.browser.find_element(*BasePageLocators.GO_TO_THE_BASKET)
+        link.click()
+
     def go_to_login_page(self):
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
