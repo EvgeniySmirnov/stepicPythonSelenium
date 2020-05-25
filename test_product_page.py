@@ -26,13 +26,13 @@ class TestUserAddToBasketFromProductPage:
     @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         
-        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
+        link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207"
 
         page = ProductPage(browser, link)   # инициализируем Page Object, передаем в конструктор экземпляр драйвера и url адрес 
-        page.open()                      # открываем страницу
+        page.open() 
+        page.should_be_authorized_user()    # проверка, что после регистрации в setup и перехода на страницу товара пользователь остается залогиненым
         page.should_not_be_success_message()
         page.add_product_to_basket()
-        page.solve_quiz_and_get_code()
 
         page.should_be_message_book_added()
         page.should_be_basket_price_eq_book_price()
