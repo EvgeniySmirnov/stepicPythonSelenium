@@ -12,7 +12,7 @@ class ProductPage(BasePage):
 
     def should_be_basket_price_eq_book_price(self):
         book_price = self.browser.find_element(*ProductPageLocators.BOOK_PRICE).text
-        basket_price = self.browser.find_element(*ProductPageLocators.BOOK_PRICE).text
+        basket_price = self.browser.find_element(*ProductPageLocators.BASKET_PRICE).text
         assert book_price == basket_price, f"Book price {book_price} not equals price in message {basket_price}"
 
     def should_not_be_success_message(self):
